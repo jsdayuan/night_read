@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:night_read/jsons/photo_data.dart';
+import 'package:night_read/jsons/post_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,14 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,15 +46,21 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () async {
+          // var response =
+          //     await Dio().get('https://jsonplaceholder.typicode.com/posts/1');
+          // var p = PostData.fromJson(response.data);
+          // print(p.title);
+
+          final response =
+              await Dio().get('https://jsonplaceholder.typicode.com/photos');
+          List<PhotoData> p = getPhotoDataList(response.data);
+          print(p[0].url);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
