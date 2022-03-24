@@ -4,6 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:night_read/jsons/photo_data.dart';
 import 'package:night_read/jsons/post_data.dart';
+import 'package:night_read/states/language.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,12 +17,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
+    return MultiProvider(
+      providers: [ChangeNotifierProvider<Language>(create: (_) => Language())],
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: context.read<Language>().locale,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const MyHomePage(),
+        );
+      }),
     );
   }
 }
@@ -43,8 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              AppLocalizations.of(context)!.helloWorld,
             ),
           ],
         ),
@@ -56,10 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // var p = PostData.fromJson(response.data);
           // print(p.title);
 
-          final response =
-              await Dio().get('https://jsonplaceholder.typicode.com/photos');
-          List<PhotoData> p = getPhotoDataList(response.data);
-          print(p[0].url);
+          // final response =
+          //     await Dio().get('https://jsonplaceholder.typicode.com/photos');
+          // List<PhotoData> p = getPhotoDataList(response.data);
+          // print(p[0].url);
+
+          // context.read<Language>().setLocal(Locale('en'));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
