@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'routes/index.dart';
+import 'utils/color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,8 +43,10 @@ class MyApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: context.watch<Language>().locale,
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.blueGrey,
+            brightness: Brightness.dark
           ),
           onGenerateRoute: (RouteSettings settings) {
             final user = context.read<UserData?>();
