@@ -40,7 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // List<PhotoData> p = getPhotoDataList(response.data);
           // print(p[0].url);
 
-          context.read<Language>().setLocal(Locale('en'));
+          // context.read<Language>().setLocal(Locale('en'));
+
+          
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
