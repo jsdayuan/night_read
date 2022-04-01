@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:night_read/states/language.dart';
-import 'package:provider/provider.dart';
+import 'package:night_read/common/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -30,19 +30,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // var response =
-          //     await Dio().get('https://jsonplaceholder.typicode.com/posts/1');
-          // var p = PostData.fromJson(response.data);
-          // print(p.title);
+          await Global.logout();
 
-          // final response =
-          //     await Dio().get('https://jsonplaceholder.typicode.com/photos');
-          // List<PhotoData> p = getPhotoDataList(response.data);
-          // print(p[0].url);
-
-          // context.read<Language>().setLocal(Locale('en'));
-
-          
+          Navigator.pushReplacementNamed(context, 'login');
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

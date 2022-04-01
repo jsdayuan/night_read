@@ -7,7 +7,8 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:night_read/utils/color.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../common/global.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -32,10 +33,8 @@ class _LoginState extends State<Login> {
           _btnController.start();
 
           _formKey.currentState!.save();
-          print(_params);
 
-          var _prefs = await SharedPreferences.getInstance();
-          _prefs.setString('user', jsonEncode(_params));
+          await Global.setUserAndUpdateIsLogin(jsonEncode(_params));
 
           Timer(const Duration(seconds: 3), () {
             _btnController.success();
