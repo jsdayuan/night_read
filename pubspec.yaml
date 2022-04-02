@@ -44,6 +44,7 @@ dependencies:
   google_fonts: ^2.3.1
   flutter_keyboard_visibility: ^5.2.0
   rounded_loading_button: ^2.1.0
+  flutter_zoom_drawer: ^2.3.1+1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/login.gif
+    - images/card1.gif
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
