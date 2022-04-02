@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:night_read/utils/color.dart';
@@ -51,24 +53,81 @@ class _MyHomePageState extends State<MyHomePage> {
       borderRadius: BorderRadius.circular(28),
       child: Stack(
         children: [
-          Image.asset('images/card1.gif'),
+          Image.asset(
+            'images/card1.gif',
+            opacity: const AlwaysStoppedAnimation<double>(0.4),
+          ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('hello'),
-              Text('world'),
+              Container(
+                  width: 128,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        HexColor('#39334e'),
+                        HexColor('#5f476a'),
+                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                      borderRadius:
+                          BorderRadius.only(bottomRight: Radius.circular(28))),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                  child: Text(
+                    '地下城与勇士',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 28, vertical: 6),
+                child: Text(
+                  '王者荣耀五排寻队友王者荣耀五排寻队友',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(
+                height: 68,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          for (var i = 0; i < 10; i++)
+                            Row(
+                              children: [
+                                Container(
+                                  width: 58,
+                                  height: 58,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: HexColor('#7f8381'), width: 3),
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.brown[800],
+                                    child: Text(
+                                      '大元',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 18,
+                                )
+                              ],
+                            )
+                        ],
+                      ),
+                    ))
+                  ],
+                ),
+              )
             ],
           )
         ],
       ),
     );
-    // Stack(
-    //   children: [
-    //     Container(
-    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(28)),
-    //       child: Image.asset('images/card1.gif',fit: BoxFit.fill,width: 100,height: 100,),
-    //     )
-    //   ],
-    // );
   }
 
   @override
@@ -78,16 +137,28 @@ class _MyHomePageState extends State<MyHomePage> {
       menuScreen: _menuScreen(),
       mainScreen: Scaffold(
         appBar: AppBar(
-          title: Text('ReServe Player'),
+          title: const Text('ReServe Player'),
           backgroundColor: HexColor('#1e2632'),
-          leading: IconButton(
-              onPressed: () {
-                _zoomDrawerController.toggle?.call();
-              },
-              icon: Icon(Icons.menu)),
+          leading: StatefulBuilder(
+            builder: (BuildContext context, _setState) {
+              print('icon');
+
+              return IconButton(
+                  onPressed: () async {
+                    _zoomDrawerController.toggle?.call();
+                    Timer(Duration(milliseconds: 300), () {
+                      _setState(() {});
+                    });
+                  },
+                  icon: _zoomDrawerController.isOpen != null &&
+                          _zoomDrawerController.isOpen!()
+                      ? Icon(Icons.close)
+                      : Icon(Icons.menu));
+            },
+          ),
         ),
         body: DecoratedBox(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
               gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -100,10 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Expanded(
                   child: Padding(
-                padding: EdgeInsets.all(28),
+                padding: const EdgeInsets.all(28),
                 child: ListView.separated(
                   separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
+                    return const SizedBox(
                       height: 38,
                     );
                   },
