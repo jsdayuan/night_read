@@ -48,6 +48,60 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
 
+  Widget _mainScreen() => Scaffold(
+        appBar: AppBar(
+          title: const Text('ReServe Player'),
+          backgroundColor: HexColor('#1e2632'),
+          leading: StatefulBuilder(
+            builder: (BuildContext context, _setState) {
+              print('icon');
+
+              return IconButton(
+                  onPressed: () async {
+                    _zoomDrawerController.toggle?.call();
+                    Timer(Duration(milliseconds: 300), () {
+                      _setState(() {});
+                    });
+                  },
+                  icon: _zoomDrawerController.isOpen != null &&
+                          _zoomDrawerController.isOpen!()
+                      ? Icon(Icons.close)
+                      : Icon(Icons.menu));
+            },
+          ),
+        ),
+        body: DecoratedBox(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              HexColor('#1e2632'),
+              HexColor('#603fb3'),
+            ],
+          )),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(28),
+                child: ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      height: 38,
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    return _itemCard(index);
+                  },
+                  itemCount: 10,
+                ),
+              ))
+            ],
+          ),
+        ),
+      );
+  
   Widget _itemCard(int index) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(28),
@@ -122,7 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ))
                   ],
                 ),
-              )
+              ),
+              Row(children: [
+
+              ],)            
             ],
           )
         ],
@@ -135,62 +192,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return ZoomDrawer(
       controller: _zoomDrawerController,
       menuScreen: _menuScreen(),
-      mainScreen: Scaffold(
-        appBar: AppBar(
-          title: const Text('ReServe Player'),
-          backgroundColor: HexColor('#1e2632'),
-          leading: StatefulBuilder(
-            builder: (BuildContext context, _setState) {
-              print('icon');
-
-              return IconButton(
-                  onPressed: () async {
-                    _zoomDrawerController.toggle?.call();
-                    Timer(Duration(milliseconds: 300), () {
-                      _setState(() {});
-                    });
-                  },
-                  icon: _zoomDrawerController.isOpen != null &&
-                          _zoomDrawerController.isOpen!()
-                      ? Icon(Icons.close)
-                      : Icon(Icons.menu));
-            },
-          ),
-        ),
-        body: DecoratedBox(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              HexColor('#1e2632'),
-              HexColor('#603fb3'),
-            ],
-          )),
-          child: Row(
-            children: [
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.all(28),
-                child: ListView.separated(
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 38,
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return _itemCard(index);
-                  },
-                  itemCount: 10,
-                ),
-              ))
-            ],
-          ),
-        ),
-      ),
+      mainScreen: _mainScreen(),
       borderRadius: 24.0,
       angle: -12.0,
-      backgroundColor: Colors.grey,
       slideWidth: MediaQuery.of(context).size.width * 0.45,
     );
   }
